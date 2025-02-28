@@ -1,9 +1,11 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './features/auth/login/login.component';
-import { SignupComponent } from './features/auth/signup/signup.component';
+import { LoginComponent } from './features/auth/pages/login/login.component';
+import { SignupComponent } from './features/auth/pages/signup/signup.component';
+import { FeedComponent } from './features/posts/pages/feed/feed.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'signup', component: SignupComponent },
-  { path: '**', redirectTo: 'login' },
+  { path: 'register', component: SignupComponent },
+  { path: 'feed', component: FeedComponent },
+  { path: '**', redirectTo: 'login', pathMatch: 'full' },
 ];

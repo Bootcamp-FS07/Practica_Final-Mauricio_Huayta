@@ -1,13 +1,13 @@
-<mat-card>
+<mat-card class="login-container">
   <mat-card-title>Blog App Login</mat-card-title>
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <mat-form-field appearence="outline">
+    <mat-form-field appearence="outline" class="full-width">
       <mat-label>Email</mat-label>
       <input matInput formControlName="username" type="email" required />
       <mat-error *ngIf="loginForm.get('username')?.invalid">Email is required</mat-error>
     </mat-form-field>
 
-    <mat-form-field appearence="outline">
+    <mat-form-field appearence="outline" class="full-width">
       <mat-label>Password</mat-label>
       <input matInput formControlName="password" type="password" required />
       <mat-error *ngIf="loginForm.get('password')?.invalid">Password is required</mat-error>
