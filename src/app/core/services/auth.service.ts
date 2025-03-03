@@ -16,7 +16,6 @@ export class AuthService {
   login(credentials: { username: string; password: string }): Observable<any> {
     return this.http.post<{ access_token: string }>(`${this.apiUrl}/login`, credentials).pipe(
       tap((response) => {
-        console.log(response);
         localStorage.setItem('token', response.access_token);
       })
     );
@@ -27,7 +26,7 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem('token');
+    localStorage.clear();
     this.router.navigate(['/login']);
   }
 
