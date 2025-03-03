@@ -1,6 +1,14 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators,
+  AbstractControl,
+  ValidationErrors,
+  ValidatorFn,
+} from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -31,22 +39,49 @@ export class SignupComponent {
     private router: Router,
     private snackBar: MatSnackBar
   ) {
-    this.signupForm = this.fb.group({
-      username: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      confirmPassword: ['', [Validators.required]],
-    });
+    this.signupForm = this.fb.group(
+      {
+        username: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(8), this.passwordValidator]],
+        confirmPassword: [''],
+      },
+      {
+        validator: this.passwordMatchValidator,
+      }
+    );
   }
+
+  passwordValidator(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    if (!value) return null;
+
+    const hasUpper = /[A-Z]/.test(value);
+    const hasLower = /[a-z]/.test(value);
+    const hasNumber = /[0-9]/.test(value);
+    const hasSpecial = /[^A-Za-z0-9]/.test(value);
+
+    const valid = hasUpper && hasLower && hasNumber && hasSpecial;
+    return valid ? null : { passwordInvalid: true };
+  }
+
+  passwordMatchValidator: ValidatorFn = (group: AbstractControl): ValidationErrors | null => {
+    const password = group.get('password')?.value;
+    const confirmPasswordControl = group.get('confirmPassword');
+    const confirmPassword = confirmPasswordControl?.value;
+
+    if (password !== confirmPassword) {
+      confirmPasswordControl?.setErrors({ passwordMismatch: true });
+      return { passwordMismatch: true };
+    } else {
+      confirmPasswordControl?.setErrors(null);
+      return null;
+    }
+  };
 
   registerUser() {
     if (this.signupForm.invalid) return;
 
-    const { username, password, confirmPassword } = this.signupForm.value;
-
-    if (password !== confirmPassword) {
-      this.snackBar.open('Password must be the same', 'Close', { duration: 3000 });
-      return;
-    }
+    const { username, password } = this.signupForm.value;
 
     this.authService.register({ username, password }).subscribe({
       next: () => {
