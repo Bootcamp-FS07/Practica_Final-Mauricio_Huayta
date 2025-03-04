@@ -1,0 +1,6 @@
+<mat-toolbar color="primary">
+  <span>Mi App</span>
+  <span class="spacer"></span>
+  <button *ngIf="!authService.isLoggedIn()" mat-button routerLink="/login">Login</button>
+  <button *ngIf="authService.isLoggedIn()" mat-button (click)="logout()">Logout</button>
+</mat-toolbar>

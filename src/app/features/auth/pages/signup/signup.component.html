@@ -1,0 +1,54 @@
+<mat-card class="signup-container">
+  <mat-card-title>Register Blog App</mat-card-title>
+  <form [formGroup]="signupForm" (ngSubmit)="registerUser()">
+    <mat-form-field appearence="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="username" type="email" required />
+      <mat-error *ngIf="signupForm.get('username')?.invalid"
+        >Email is required and should have email format (E.g. {{ 'example@com' }})</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field appearence="outline" class="full-width">
+      <mat-label>Password</mat-label>
+      <input matInput formControlName="password" type="password" required />
+      <mat-error
+        *ngIf="
+          signupForm.get('password')?.hasError('required') && signupForm.get('password')?.touched
+        "
+        >Password is required
+      </mat-error>
+      <mat-error
+        *ngIf="
+          signupForm.get('password')?.hasError('minlength') &&
+          !signupForm.get('password')?.hasError('required')
+        "
+        >Password should have at least 8 characters
+      </mat-error>
+      <mat-error
+        *ngIf="
+          signupForm.get('password')?.hasError('passwordInvalid') &&
+          !signupForm.get('password')?.hasError('minlength')
+        "
+        >Password must contain at least one uppercase letter, one lowercase letter, one number, and
+        one special character.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearence="outline" class="full-width">
+      <mat-label>Confirm Password</mat-label>
+      <input matInput formControlName="confirmPassword" type="password" required />
+      <mat-error
+        *ngIf="
+          signupForm.get('confirmPassword')?.hasError('passwordMismatch') &&
+          signupForm.get('confirmPassword')?.touched
+        "
+        >Passwords must match
+      </mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="signupForm.invalid">
+      Register
+    </button>
+  </form>
+</mat-card>
