@@ -3,3 +3,8 @@ form {
   flex-direction: column;
   gap: 10px;
 }
+
+.fit-content {
+  align-self: flex-end;
+  width: auto;
+}

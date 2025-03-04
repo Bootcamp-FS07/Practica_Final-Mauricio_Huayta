@@ -4,11 +4,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { PostService } from '../../../../core/services/post.service';
 import { EditPostDialogComponent } from '../edit-post-dialog/edit-post-dialog.component';
+import { CreateCommentComponent } from '../create-comment/create-comment.component';
 import { MatDialog } from '@angular/material/dialog';
+import { CommentService } from '../../../../core/services/comment.service';
 
 @Component({
   selector: 'app-post-card',
-  imports: [CommonModule, MatCardModule, MatButtonModule],
+  imports: [CommonModule, CreateCommentComponent, MatCardModule, MatButtonModule],
   templateUrl: './post-card.component.html',
   styleUrl: './post-card.component.css',
 })
@@ -24,6 +26,7 @@ export class PostCardComponent {
   @Output() postUpdated = new EventEmitter<string>();
 
   private postService = inject(PostService);
+  private commentService = inject(CommentService);
   private dialog = inject(MatDialog);
   loggedUserId: string | null = localStorage.getItem('userId');
 
@@ -47,5 +50,33 @@ export class PostCardComponent {
         this.postDeleted.emit(this.post._id);
       });
     }
+  }
+
+  handleComment(commentText: string) {
+    console.log('New Comment:', commentText);
+    const newComment = {
+      post: this.post._id,
+      author: this.post.author._id,
+      text: commentText,
+    };
+    this.commentService.createComment(newComment).subscribe({
+      next: (comment) => {
+        console.log('Comment created:', comment);
+      },
+      error: (error) => {
+        console.error('Error creating comment:', error);
+      },
+    });
+  }
+
+  getComments() {
+    this.commentService.getCommentsByPostId(this.post._id).subscribe({
+      next: (comments) => {
+        console.log('Comments:', comments);
+      },
+      error: (error) => {
+        console.error('Error getting comments:', error);
+      },
+    });
   }
 }

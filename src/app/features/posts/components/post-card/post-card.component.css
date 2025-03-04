@@ -21,3 +21,7 @@ mat-card-content p {
   justify-content: flex-end;
   gap: 10px;
 }
+
+.comments-section {
+  margin-bottom: 2rem;
+}

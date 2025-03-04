@@ -1,12 +1,12 @@
 <div class="feed-container">
-  <mat-card-title>Create a new Post:</mat-card-title>
+  <mat-card-title>Create a new post:</mat-card-title>
   <mat-card-content>
     <app-create-post (postCreated)="loadPosts()"></app-create-post>
   </mat-card-content>
 
   <mat-divider></mat-divider>
 
-  <mat-card-title>Other Posts:</mat-card-title>
+  <mat-card-title>Explore posts:</mat-card-title>
   <mat-card-content>
     <ng-container *ngIf="posts.length > 0; else noPosts">
       <app-post-card
@@ -14,6 +14,7 @@
         [post]="post"
         (postDeleted)="handlePostDeleted($event)"
         (postUpdated)="handlePostUpdated($event, post._id)"
+        class="post-card"
       ></app-post-card>
     </ng-container>
 
