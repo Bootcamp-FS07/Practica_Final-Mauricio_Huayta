@@ -82,8 +82,7 @@ export class SignupComponent {
     const { username, password } = this.signupForm.value;
 
     this.authService.register({ username, password }).subscribe({
-      next: (response) => {
-        console.log(response);
+      next: () => {
         this.snackBar.open('Succesful register', 'Close', { duration: 3000 });
         this.router.navigate(['/login']);
       },

@@ -42,7 +42,7 @@ export class LoginComponent {
     this.authService.login(this.loginForm.value).subscribe({
       next: () => {
         const userData = this.authService.getDecodedToken();
-        this.setUserId(userData.username);
+        if (userData?.username) this.setUserId(userData.username);
         this.router.navigate(['/feed']);
       },
       error: (err) => {

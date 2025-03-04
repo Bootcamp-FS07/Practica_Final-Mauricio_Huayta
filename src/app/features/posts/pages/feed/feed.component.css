@@ -1,0 +1,13 @@
+.feed-container {
+  max-width: 640px;
+  margin: auto;
+  padding: 2em;
+}
+
+mat-card-title {
+  margin-bottom: 1em;
+}
+
+mat-divider {
+  margin: 2em 0;
+}

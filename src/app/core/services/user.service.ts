@@ -1,16 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
+
+interface User {
+  _id: string;
+  username: string;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = 'http://localhost:3000/user';
+  private apiUrl = `${environment.apiUrl}/user`;
   private http = inject(HttpClient);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getAllUsers(): Observable<any> {
-    return this.http.get(this.apiUrl);
+  getAllUsers(): Observable<User[]> {
+    return this.http.get<User[]>(this.apiUrl);
   }
 }

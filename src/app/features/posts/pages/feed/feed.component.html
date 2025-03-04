@@ -1,2 +1,24 @@
-<p>feed works!</p>
-<app-create-post (postCreated)="loadPosts()"></app-create-post>
+<div class="feed-container">
+  <mat-card-title>Create a new Post:</mat-card-title>
+  <mat-card-content>
+    <app-create-post (postCreated)="loadPosts()"></app-create-post>
+  </mat-card-content>
+
+  <mat-divider></mat-divider>
+
+  <mat-card-title>Other Posts:</mat-card-title>
+  <mat-card-content>
+    <ng-container *ngIf="posts.length > 0; else noPosts">
+      <app-post-card
+        *ngFor="let post of posts"
+        [post]="post"
+        (postDeleted)="handlePostDeleted($event)"
+        (postUpdated)="handlePostUpdated($event, post._id)"
+      ></app-post-card>
+    </ng-container>
+
+    <ng-template #noPosts>
+      <p>No posts available.</p>
+    </ng-template>
+  </mat-card-content>
+</div>
