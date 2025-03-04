@@ -1,0 +1,23 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title class="dialog-title">Edit Post</h2>
+
+  <mat-dialog-content>
+    <form [formGroup]="postForm">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Content</mat-label>
+        <textarea matInput rows="3" formControlName="text"></textarea>
+        <mat-error *ngIf="postForm.get('text')?.hasError('required')">
+          Content is required
+        </mat-error>
+        <mat-error *ngIf="postForm.get('text')?.hasError('maxlength')">
+          Maximum length exceeded (150 characters)
+        </mat-error>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="dialog-actions">
+    <button mat-button (click)="cancel()">Cancel</button>
+    <button mat-button color="primary" [disabled]="postForm.invalid" (click)="save()">Save</button>
+  </mat-dialog-actions>
+</div>

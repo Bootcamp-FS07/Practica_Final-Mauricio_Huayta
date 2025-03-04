@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   ReactiveFormsModule,
@@ -32,13 +32,11 @@ import { Router } from '@angular/router';
 })
 export class SignupComponent {
   signupForm: FormGroup;
+  private fb = inject(FormBuilder);
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router,
-    private snackBar: MatSnackBar
-  ) {
+  constructor(private snackBar: MatSnackBar) {
     this.signupForm = this.fb.group(
       {
         username: ['', [Validators.required, Validators.email]],

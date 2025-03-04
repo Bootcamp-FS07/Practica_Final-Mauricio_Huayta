@@ -1,0 +1,10 @@
+<form [formGroup]="postForm" (ngSubmit)="createPost()">
+  <mat-form-field appearance="outline">
+    <mat-label>Post content</mat-label>
+    <textarea matInput formControlName="text" required></textarea>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit" [disabled]="postForm.invalid">
+    Publicar
+  </button>
+</form>

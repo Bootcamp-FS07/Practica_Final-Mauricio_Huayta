@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../../../core/services/auth.service';
 import { Router } from '@angular/router';
+import { UserService } from '../../../../core/services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -23,12 +24,12 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  private fb = inject(FormBuilder);
+  private authService = inject(AuthService);
+  private userService = inject(UserService);
+  private router = inject(Router);
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router
-  ) {
+  constructor() {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -40,12 +41,24 @@ export class LoginComponent {
 
     this.authService.login(this.loginForm.value).subscribe({
       next: () => {
+        const userData = this.authService.getDecodedToken();
+        if (userData?.username) this.setUserId(userData.username);
         this.router.navigate(['/feed']);
       },
       error: (err) => {
         alert('Error at login: ' + err.error.message);
         console.error(err);
       },
+    });
+  }
+
+  // Find the user by username and set the user id in the local storage
+  private setUserId(username: string) {
+    this.userService.getAllUsers().subscribe((users) => {
+      const user = users.find((user: { username: string }) => user.username === username);
+      if (user) {
+        localStorage.setItem('userId', user._id);
+      }
     });
   }
 }

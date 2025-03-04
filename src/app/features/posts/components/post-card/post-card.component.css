@@ -1,0 +1,23 @@
+.post-card {
+  margin-bottom: 1em;
+  padding: 1em 2em;
+}
+
+mat-card-content {
+  display: block;
+}
+
+mat-card-content p {
+  margin: 0;
+  font-size: 1.2em;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
