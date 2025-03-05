@@ -3,10 +3,18 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
-interface Comment {
+export interface Comment {
+  _id: string;
   text: string;
-  post_id: string;
-  author_id: string;
+  author: {
+    username: string;
+    _id: string;
+  };
+  post: {
+    _id: string;
+    author: string;
+  };
+  createdAt: string;
 }
 
 @Injectable({
@@ -16,11 +24,15 @@ export class CommentService {
   private apiUrl = `${environment.apiUrl}/comment`;
   private http = inject(HttpClient);
 
-  createComment(comment: { text: string; author: string; post: string }): Observable<Comment> {
-    return this.http.post<Comment>(this.apiUrl, comment);
+  createComment(comment: { text: string; author: string; post: string }): Observable<unknown> {
+    return this.http.post(this.apiUrl, comment);
   }
 
   getCommentsByPostId(postId: string): Observable<Comment[]> {
     return this.http.get<Comment[]>(`${this.apiUrl}?postId=${postId}`);
+  }
+
+  deleteComment(commentId: string): Observable<unknown> {
+    return this.http.delete(`${this.apiUrl}/${commentId}`);
   }
 }

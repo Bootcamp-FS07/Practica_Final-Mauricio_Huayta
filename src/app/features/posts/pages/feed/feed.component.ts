@@ -25,7 +25,6 @@ export class FeedComponent implements OnInit {
 
   loadPosts() {
     this.postService.getAllPosts().subscribe((posts) => {
-      console.log('Posts:', posts);
       this.posts = posts.sort(
         (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       );

@@ -16,5 +16,5 @@
 <div class="comments-section">
   <mat-card-subtitle>Comments Section:</mat-card-subtitle>
   <app-create-comment (commentSubmitted)="handleComment($event)"></app-create-comment>
-  <button mat-button color="warn" (click)="getComments()">Obtener comentarios</button>
+  <app-comment-list #commentList [postId]="post._id"></app-comment-list>
 </div>

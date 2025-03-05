@@ -45,7 +45,11 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    return !!this.getToken();
+    const decodedToken = this.getDecodedToken();
+    if (!decodedToken) return false;
+
+    const isExpired = Date.now() >= decodedToken.exp * 1000;
+    return !isExpired;
   }
 
   getDecodedToken(): DecodedToken | null {

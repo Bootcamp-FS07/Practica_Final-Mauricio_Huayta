@@ -1,16 +1,23 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { PostService } from '../../../../core/services/post.service';
 import { EditPostDialogComponent } from '../edit-post-dialog/edit-post-dialog.component';
-import { CreateCommentComponent } from '../create-comment/create-comment.component';
+import { CreateCommentComponent } from '../../../comments/components/create-comment/create-comment.component';
+import { CommentListComponent } from '../../../comments/components/comment-list/comment-list.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CommentService } from '../../../../core/services/comment.service';
 
 @Component({
   selector: 'app-post-card',
-  imports: [CommonModule, CreateCommentComponent, MatCardModule, MatButtonModule],
+  imports: [
+    CommonModule,
+    CreateCommentComponent,
+    CommentListComponent,
+    MatCardModule,
+    MatButtonModule,
+  ],
   templateUrl: './post-card.component.html',
   styleUrl: './post-card.component.css',
 })
@@ -25,10 +32,12 @@ export class PostCardComponent {
   @Output() postDeleted = new EventEmitter<string>();
   @Output() postUpdated = new EventEmitter<string>();
 
+  @ViewChild('commentList') commentList!: CommentListComponent;
+
   private postService = inject(PostService);
   private commentService = inject(CommentService);
   private dialog = inject(MatDialog);
-  loggedUserId: string | null = localStorage.getItem('userId');
+  loggedUserId: string = localStorage.getItem('userId') || '';
 
   openEditDialog() {
     const dialogRef = this.dialog.open(EditPostDialogComponent, {
@@ -56,12 +65,12 @@ export class PostCardComponent {
     console.log('New Comment:', commentText);
     const newComment = {
       post: this.post._id,
-      author: this.post.author._id,
+      author: this.loggedUserId,
       text: commentText,
     };
     this.commentService.createComment(newComment).subscribe({
-      next: (comment) => {
-        console.log('Comment created:', comment);
+      next: () => {
+        this.commentList.loadComments();
       },
       error: (error) => {
         console.error('Error creating comment:', error);

@@ -1,0 +1,58 @@
+.comments-section {
+  margin-top: 2rem;
+  padding: 1rem;
+  border-top: 1px solid #aaaaaa;
+}
+
+.comment-item {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid #ccc;
+}
+.comment-item:last-child {
+  border-bottom: none;
+}
+
+.user-icon {
+  color: #555555;
+  font-size: 2.5rem;
+  height: 2.5rem;
+  width: 2.5rem;
+}
+
+.comment-body {
+  flex: 1;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.5rem;
+}
+
+.username {
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.comment-time {
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.comment-text {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.no-comments-msg {
+  color: #666;
+  font-style: italic;
+  text-align: center;
+  padding: 0.5rem;
+}
