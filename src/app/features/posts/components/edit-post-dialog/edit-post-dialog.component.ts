@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -29,7 +28,7 @@ export class EditPostDialogComponent {
 
   constructor(
     private dialogRef: MatDialogRef<EditPostDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private fb: FormBuilder
   ) {
     this.postForm = this.fb.group({
@@ -46,4 +45,10 @@ export class EditPostDialogComponent {
       this.dialogRef.close(this.postForm.value); // Return only updated text
     }
   }
+}
+
+interface DialogData {
+  post: {
+    text: string;
+  };
 }

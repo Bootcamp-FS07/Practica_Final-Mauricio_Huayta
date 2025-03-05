@@ -9,3 +9,15 @@
   width: 100%;
   margin-bottom: 15px;
 }
+
+.register-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.register-link span {
+  margin-right: 5px;
+  font-size: 14px;
+}

@@ -1,9 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-create-comment',
@@ -18,7 +17,7 @@ export class CreateCommentComponent {
 
   constructor(private fb: FormBuilder) {
     this.commentForm = this.fb.group({
-      comment: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]],
+      comment: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
     });
   }
 

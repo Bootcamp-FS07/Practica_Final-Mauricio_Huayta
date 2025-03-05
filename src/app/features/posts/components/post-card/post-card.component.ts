@@ -2,11 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialog } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
 import { PostService } from '../../../../core/services/post.service';
 import { EditPostDialogComponent } from '../edit-post-dialog/edit-post-dialog.component';
 import { CreateCommentComponent } from '../../../comments/components/create-comment/create-comment.component';
 import { CommentListComponent } from '../../../comments/components/comment-list/comment-list.component';
-import { MatDialog } from '@angular/material/dialog';
 import { CommentService } from '../../../../core/services/comment.service';
 
 @Component({
@@ -17,6 +19,8 @@ import { CommentService } from '../../../../core/services/comment.service';
     CommentListComponent,
     MatCardModule,
     MatButtonModule,
+    MatDividerModule,
+    MatIconModule,
   ],
   templateUrl: './post-card.component.html',
   styleUrl: './post-card.component.css',

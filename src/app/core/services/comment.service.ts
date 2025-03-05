@@ -32,7 +32,11 @@ export class CommentService {
     return this.http.get<Comment[]>(`${this.apiUrl}?postId=${postId}`);
   }
 
-  deleteComment(commentId: string): Observable<unknown> {
-    return this.http.delete(`${this.apiUrl}/${commentId}`);
+  deleteComment(commentId: string): Observable<Comment> {
+    return this.http.delete<Comment>(`${this.apiUrl}/${commentId}`);
+  }
+
+  updateComment(commentId: string, text: string): Observable<Comment> {
+    return this.http.patch<Comment>(`${this.apiUrl}/${commentId}`, { text });
   }
 }

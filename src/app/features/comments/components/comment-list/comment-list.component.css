@@ -42,6 +42,10 @@
   font-size: 0.9rem;
 }
 
+.edit-comment-field {
+  width: 25rem;
+}
+
 .comment-text {
   margin: 0;
   font-size: 1rem;

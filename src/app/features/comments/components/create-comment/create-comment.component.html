@@ -2,6 +2,9 @@
   <mat-form-field appearance="outline" class="full-width">
     <mat-label>Write a comment...</mat-label>
     <textarea matInput rows="1" formControlName="comment"></textarea>
+    <mat-error *ngIf="commentForm.invalid && this.commentForm.get('comment')?.value !== ''">
+      Comment should have at least 3 characters and at most 50.
+    </mat-error>
   </mat-form-field>
 
   <button mat-button color="primary" type="submit" [disabled]="commentForm.invalid">Comment</button>

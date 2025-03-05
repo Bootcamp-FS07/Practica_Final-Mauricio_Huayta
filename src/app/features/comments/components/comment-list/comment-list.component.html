@@ -1,5 +1,5 @@
 <div class="comments-section">
-  <mat-card-subtitle>Posted Comments: </mat-card-subtitle>
+  <mat-card-subtitle>Posted Comments({{ comments.length }}): </mat-card-subtitle>
   <div *ngIf="comments.length > 0; else noComments" class="comments-list">
     <div class="comment-item" *ngFor="let comment of comments">
       <mat-icon class="user-icon">account_circle</mat-icon>
@@ -8,10 +8,38 @@
           <span class="username">{{ comment.author.username }}</span>
           <span class="comment-time">{{ comment.createdAt | date: 'short' }}</span>
         </div>
-        <p class="comment-text">{{ comment.text }}</p>
+
+        <!-- Edit form-->
+        <div *ngIf="editingCommentId === comment._id; else displayComment">
+          <form [formGroup]="editForm" (ngSubmit)="updateComment(comment._id)">
+            <mat-form-field appearance="outline" class="edit-comment-field">
+              <input matInput formControlName="text" placeholder="Edit your comment" />
+              <mat-error *ngIf="editForm.invalid">
+                Comment should have at least 3 characters and at most 50.
+              </mat-error>
+            </mat-form-field>
+            <button mat-icon-button color="primary" type="submit" [disabled]="editForm.invalid">
+              <mat-icon>check</mat-icon>
+            </button>
+            <button mat-icon-button type="button" (click)="cancelEditing()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </form>
+        </div>
+
+        <ng-template #displayComment>
+          <p class="comment-text">{{ comment.text }}</p>
+        </ng-template>
       </div>
 
       <div *ngIf="comment.author._id === loggedUserId || comment.post.author === loggedUserId">
+        <button
+          *ngIf="comment.author._id === loggedUserId"
+          mat-icon-button
+          (click)="startEditing(comment)"
+        >
+          <mat-icon color="primary">edit</mat-icon>
+        </button>
         <button mat-icon-button (click)="deleteComment(comment._id)">
           <mat-icon color="warn">delete</mat-icon>
         </button>

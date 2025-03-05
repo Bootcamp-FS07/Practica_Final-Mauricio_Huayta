@@ -1,5 +1,5 @@
 <mat-card class="login-container">
-  <mat-card-title>Blog App Login</mat-card-title>
+  <mat-card-title>Blog App - Login</mat-card-title>
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearence="outline" class="full-width">
       <mat-label>Email</mat-label>
@@ -17,4 +17,8 @@
       Login
     </button>
   </form>
+  <div class="register-link">
+    <span>Don't have an account?</span>
+    <a mat-button routerLink="/register" color="accent">Register here</a>
+  </div>
 </mat-card>

@@ -1,6 +1,10 @@
-<mat-toolbar color="primary">
-  <span>Mi App</span>
+<mat-toolbar color="primary" class="main-navbar">
+  <span class="app-name">MY BLOG APP</span>
   <span class="spacer"></span>
-  <button *ngIf="!authService.isLoggedIn()" mat-button routerLink="/login">Login</button>
-  <button *ngIf="authService.isLoggedIn()" mat-button (click)="logout()">Logout</button>
+  <button *ngIf="!authService.isLoggedIn()" mat-button routerLink="/login" class="nav-button">
+    Login
+  </button>
+  <button *ngIf="authService.isLoggedIn()" mat-button (click)="logout()" class="nav-button">
+    Logout
+  </button>
 </mat-toolbar>
