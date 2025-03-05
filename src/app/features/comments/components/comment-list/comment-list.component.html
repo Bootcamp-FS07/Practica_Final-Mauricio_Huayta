@@ -14,7 +14,7 @@
           <form [formGroup]="editForm" (ngSubmit)="updateComment(comment._id)">
             <mat-form-field appearance="outline" class="edit-comment-field">
               <input matInput formControlName="text" placeholder="Edit your comment" />
-              <mat-error *ngIf="editForm.invalid">
+              <mat-error *ngIf="editForm.invalid && editForm.get('text')?.value !== ''">
                 Comment should have at least 3 characters and at most 50.
               </mat-error>
             </mat-form-field>

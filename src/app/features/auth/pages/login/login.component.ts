@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../../../core/services/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../../../../core/services/user.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -30,7 +31,7 @@ export class LoginComponent {
   private userService = inject(UserService);
   private router = inject(Router);
 
-  constructor() {
+  constructor(private snackBar: MatSnackBar) {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -44,10 +45,11 @@ export class LoginComponent {
       next: () => {
         const userData = this.authService.getDecodedToken();
         if (userData?.username) this.setUserId(userData.username);
+        this.snackBar.open('Login successful', 'Close', { duration: 3000 });
         this.router.navigate(['/feed']);
       },
       error: (err) => {
-        alert('Error at login: ' + err.error.message);
+        this.snackBar.open(`Error: ${err.error.message}`, 'Close', { duration: 3000 });
         console.error(err);
       },
     });
