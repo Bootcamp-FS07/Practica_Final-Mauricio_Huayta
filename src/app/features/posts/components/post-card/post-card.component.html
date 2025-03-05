@@ -1,0 +1,15 @@
+<mat-card class="post-card">
+  <mat-card-header>
+    <mat-card-subtitle> {{ post.createdAt | date: 'short' }} </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p>{{ post.text }}</p>
+  </mat-card-content>
+  <mat-card-footer>
+    <span>Author: {{ post.author.username }}</span>
+    <div class="actions" *ngIf="post.author._id === loggedUserId">
+      <button mat-button color="primary" (click)="openEditDialog()">Edit</button>
+      <button mat-button color="warn" (click)="deletePost()">Delete</button>
+    </div>
+  </mat-card-footer>
+</mat-card>

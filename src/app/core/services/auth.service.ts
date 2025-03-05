@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
@@ -8,6 +7,12 @@ import * as decoder from 'jwt-decode';
 
 interface LoginResponse {
   access_token: string;
+}
+
+interface DecodedToken {
+  username: string;
+  iat: number;
+  exp: number;
 }
 
 @Injectable({
@@ -31,7 +36,7 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem('token');
+    localStorage.clear();
     this.router.navigate(['/login']);
   }
 
@@ -43,7 +48,7 @@ export class AuthService {
     return !!this.getToken();
   }
 
-  getDecodedToken(): any {
+  getDecodedToken(): DecodedToken | null {
     const token = this.getToken();
     if (!token) return null;
     return decoder.jwtDecode(token);

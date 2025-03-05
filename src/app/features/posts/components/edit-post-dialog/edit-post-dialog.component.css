@@ -1,0 +1,14 @@
+.dialog-container {
+  margin: 1.5em;
+  width: 50vw;
+  max-width: 500px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.dialog-actions {
+  padding: 16px 0 0 0;
+  gap: 8px;
+}
