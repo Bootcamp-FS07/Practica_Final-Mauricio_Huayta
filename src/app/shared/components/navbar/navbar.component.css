@@ -1,7 +1,8 @@
 .main-navbar {
-  background: rgb(73, 155, 237);
+  background: var(--mat-sys-tertiary);
   padding: 0 2rem;
   position: relative;
+  color: white;
 }
 
 .app-name {
@@ -19,9 +20,10 @@
   border-radius: 4px;
   font-weight: 600;
   letter-spacing: 1px;
+  background-color: white;
 }
 
 .nav-button:hover {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(127, 133, 187, 0.47);
   transform: translateY(-1px);
 }

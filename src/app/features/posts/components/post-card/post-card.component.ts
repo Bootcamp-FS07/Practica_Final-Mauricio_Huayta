@@ -9,6 +9,7 @@ import { PostService } from '../../../../core/services/post.service';
 import { EditPostDialogComponent } from '../edit-post-dialog/edit-post-dialog.component';
 import { CreateCommentComponent } from '../../../comments/components/create-comment/create-comment.component';
 import { CommentListComponent } from '../../../comments/components/comment-list/comment-list.component';
+import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { CommentService } from '../../../../core/services/comment.service';
 
 @Component({
@@ -58,15 +59,20 @@ export class PostCardComponent {
   }
 
   deletePost() {
-    if (confirm('Are you sure you want to delete this post?')) {
-      this.postService.deletePost(this.post._id).subscribe(() => {
-        this.postDeleted.emit(this.post._id);
-      });
-    }
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: { message: 'Are you sure you want to delete this post?' },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.postService.deletePost(this.post._id).subscribe(() => {
+          this.postDeleted.emit(this.post._id);
+        });
+      }
+    });
   }
 
   handleComment(commentText: string) {
-    console.log('New Comment:', commentText);
     const newComment = {
       post: this.post._id,
       author: this.loggedUserId,
@@ -78,17 +84,6 @@ export class PostCardComponent {
       },
       error: (error) => {
         console.error('Error creating comment:', error);
-      },
-    });
-  }
-
-  getComments() {
-    this.commentService.getCommentsByPostId(this.post._id).subscribe({
-      next: (comments) => {
-        console.log('Comments:', comments);
-      },
-      error: (error) => {
-        console.error('Error getting comments:', error);
       },
     });
   }

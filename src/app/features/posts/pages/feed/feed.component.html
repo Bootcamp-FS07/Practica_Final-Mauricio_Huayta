@@ -10,13 +10,22 @@
   <mat-card-content>
     <ng-container *ngIf="posts.length > 0; else noPosts">
       <app-post-card
-        *ngFor="let post of posts"
+        *ngFor="let post of paginatedPosts"
         [post]="post"
         (postDeleted)="handlePostDeleted($event)"
         (postUpdated)="handlePostUpdated($event, post._id)"
         class="post-card"
       ></app-post-card>
     </ng-container>
+
+    <mat-paginator
+      *ngIf="posts.length > 0"
+      [length]="posts.length"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[5, 10, 15]"
+      (page)="onPageChange($event)"
+    >
+    </mat-paginator>
 
     <ng-template #noPosts>
       <p>No posts available.</p>

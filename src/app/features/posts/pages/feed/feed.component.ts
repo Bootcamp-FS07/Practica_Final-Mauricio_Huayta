@@ -6,10 +6,18 @@ import { CreatePostComponent } from '../../components/create-post/create-post.co
 import { PostCardComponent } from '../../components/post-card/post-card.component';
 import { UserService } from '../../../../core/services/user.service';
 import { Post, PostService } from '../../../../core/services/post.service';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-feed',
-  imports: [CommonModule, CreatePostComponent, PostCardComponent, MatCardModule, MatDividerModule],
+  imports: [
+    CommonModule,
+    CreatePostComponent,
+    PostCardComponent,
+    MatCardModule,
+    MatDividerModule,
+    MatPaginatorModule,
+  ],
   templateUrl: './feed.component.html',
   styleUrl: './feed.component.css',
 })
@@ -18,6 +26,9 @@ export class FeedComponent implements OnInit {
   postService = inject(PostService);
 
   posts: Post[] = [];
+  paginatedPosts: Post[] = [];
+  pageSize = 5;
+  currentPage = 0;
 
   ngOnInit(): void {
     this.loadPosts();
@@ -28,11 +39,13 @@ export class FeedComponent implements OnInit {
       this.posts = posts.sort(
         (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       );
+      this.updatePaginatedPosts();
     });
   }
 
   handlePostDeleted(postId: string) {
     this.posts = this.posts.filter((post) => post._id !== postId);
+    this.updatePaginatedPosts();
   }
 
   handlePostUpdated(updatedText: string, postId: string) {
@@ -40,5 +53,18 @@ export class FeedComponent implements OnInit {
     if (index !== -1) {
       this.posts[index].text = updatedText;
     }
+    this.updatePaginatedPosts();
+  }
+
+  onPageChange(event: PageEvent): void {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.updatePaginatedPosts();
+  }
+
+  updatePaginatedPosts(): void {
+    const startIndex = this.currentPage * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedPosts = this.posts.slice(startIndex, endIndex);
   }
 }
