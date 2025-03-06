@@ -1,0 +1,57 @@
+<div class="comments-section">
+  <mat-card-subtitle>Posted Comments({{ comments.length }}): </mat-card-subtitle>
+  <div *ngIf="comments.length > 0; else noComments" class="comments-list">
+    <div class="comment-item" *ngFor="let comment of comments">
+      <mat-icon class="user-icon">account_circle</mat-icon>
+      <div class="comment-body">
+        <div class="comment-header">
+          <span class="username">{{ comment.author.username }}</span>
+          <span class="comment-time">{{ comment.createdAt | date: 'mediumDate' }}</span>
+        </div>
+
+        <!-- Edit form-->
+        <div *ngIf="editingCommentId === comment._id; else displayComment">
+          <form [formGroup]="editForm" (ngSubmit)="updateComment(comment._id)">
+            <mat-form-field appearance="outline" class="edit-comment-field">
+              <input matInput formControlName="text" placeholder="Edit your comment" />
+              <mat-error *ngIf="editForm.invalid && editForm.get('text')?.value !== ''">
+                Comment should have at least 3 characters and at most 50.
+              </mat-error>
+            </mat-form-field>
+            <div>
+              <button mat-button color="primary" type="submit" [disabled]="editForm.invalid">
+                Edit
+              </button>
+              <button mat-button color="warn" (click)="cancelEditing()">Cancel</button>
+            </div>
+          </form>
+        </div>
+
+        <ng-template #displayComment>
+          <p class="comment-text">{{ comment.text }}</p>
+        </ng-template>
+      </div>
+
+      <div
+        *ngIf="comment.author._id === loggedUserId || comment.post.author === loggedUserId"
+        class="comment-actions"
+      >
+        <button
+          *ngIf="comment.author._id === loggedUserId"
+          mat-icon-button
+          (click)="startEditing(comment)"
+          class="action-button"
+        >
+          <mat-icon color="primary">edit</mat-icon>
+        </button>
+        <button mat-icon-button (click)="deleteComment(comment._id)" class="action-button">
+          <mat-icon color="warn">delete</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noComments>
+    <p class="no-comments-msg">No comments yet. Be the first to comment!</p>
+  </ng-template>
+</div>

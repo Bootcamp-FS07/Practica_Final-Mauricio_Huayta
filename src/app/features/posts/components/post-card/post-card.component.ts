@@ -1,14 +1,28 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialog } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
 import { PostService } from '../../../../core/services/post.service';
 import { EditPostDialogComponent } from '../edit-post-dialog/edit-post-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
+import { CreateCommentComponent } from '../../../comments/components/create-comment/create-comment.component';
+import { CommentListComponent } from '../../../comments/components/comment-list/comment-list.component';
+import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
+import { CommentService } from '../../../../core/services/comment.service';
 
 @Component({
   selector: 'app-post-card',
-  imports: [CommonModule, MatCardModule, MatButtonModule],
+  imports: [
+    CommonModule,
+    CreateCommentComponent,
+    CommentListComponent,
+    MatCardModule,
+    MatButtonModule,
+    MatDividerModule,
+    MatIconModule,
+  ],
   templateUrl: './post-card.component.html',
   styleUrl: './post-card.component.css',
 })
@@ -23,9 +37,12 @@ export class PostCardComponent {
   @Output() postDeleted = new EventEmitter<string>();
   @Output() postUpdated = new EventEmitter<string>();
 
+  @ViewChild('commentList') commentList!: CommentListComponent;
+
   private postService = inject(PostService);
+  private commentService = inject(CommentService);
   private dialog = inject(MatDialog);
-  loggedUserId: string | null = localStorage.getItem('userId');
+  loggedUserId: string = localStorage.getItem('userId') || '';
 
   openEditDialog() {
     const dialogRef = this.dialog.open(EditPostDialogComponent, {
@@ -42,10 +59,32 @@ export class PostCardComponent {
   }
 
   deletePost() {
-    if (confirm('Are you sure you want to delete this post?')) {
-      this.postService.deletePost(this.post._id).subscribe(() => {
-        this.postDeleted.emit(this.post._id);
-      });
-    }
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: { message: 'Are you sure you want to delete this post?' },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.postService.deletePost(this.post._id).subscribe(() => {
+          this.postDeleted.emit(this.post._id);
+        });
+      }
+    });
+  }
+
+  handleComment(commentText: string) {
+    const newComment = {
+      post: this.post._id,
+      author: this.loggedUserId,
+      text: commentText,
+    };
+    this.commentService.createComment(newComment).subscribe({
+      next: () => {
+        this.commentList.loadComments();
+      },
+      error: (error) => {
+        console.error('Error creating comment:', error);
+      },
+    });
   }
 }

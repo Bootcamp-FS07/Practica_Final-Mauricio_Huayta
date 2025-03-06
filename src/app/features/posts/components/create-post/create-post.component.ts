@@ -19,7 +19,7 @@ export class CreatePostComponent {
   @Output() postCreated = new EventEmitter<void>();
 
   postForm = this.fb.group({
-    text: ['', Validators.required],
+    text: ['', [Validators.required, Validators.maxLength(150)]],
   });
 
   createPost() {

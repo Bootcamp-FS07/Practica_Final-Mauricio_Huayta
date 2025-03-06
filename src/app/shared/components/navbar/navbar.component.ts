@@ -3,11 +3,11 @@ import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AuthService } from '../../../core/services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
-  imports: [CommonModule, MatButtonModule, MatToolbarModule],
+  imports: [CommonModule, MatButtonModule, MatToolbarModule, RouterModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })

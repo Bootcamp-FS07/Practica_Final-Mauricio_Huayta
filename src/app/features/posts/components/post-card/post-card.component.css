@@ -1,23 +1,65 @@
 .post-card {
-  margin-bottom: 1em;
-  padding: 1em 2em;
+  margin: 2rem 0;
+  position: relative;
 }
 
-mat-card-content {
-  display: block;
+.post-header {
+  padding: 1rem 2rem;
 }
 
-mat-card-content p {
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.author-name {
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
+.user-icon {
+  color: #3f51b5;
+  margin-right: 1rem;
+  font-size: 2.5rem;
+  height: 2.5rem;
+  width: 2.5rem;
+}
+
+.timestamp {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.time-icon {
+  font-size: 1rem;
+  height: 1rem;
+  width: 1rem;
+  margin-right: 0.5rem;
+}
+
+.post-content {
+  padding: 1rem 2.5rem;
+}
+
+.post-text {
   margin: 0;
-  font-size: 1.2em;
+  font-size: 1.2rem;
   line-height: 1.5;
   white-space: pre-wrap;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
+  word-break: break-word;
+  color: #222;
 }
 
 .actions {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
+}
+
+.comments-section {
+  margin-bottom: 2rem;
 }

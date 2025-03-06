@@ -11,3 +11,11 @@ mat-card-title {
 mat-divider {
   margin: 2em 0;
 }
+
+.post-card {
+  margin-bottom: 16px;
+}
+
+.post-card:last-child {
+  margin-bottom: 0;
+}

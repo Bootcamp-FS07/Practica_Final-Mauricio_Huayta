@@ -1,3 +1,29 @@
+.main-navbar {
+  background: var(--mat-sys-tertiary);
+  padding: 0 2rem;
+  position: relative;
+  color: white;
+}
+
+.app-name {
+  font-size: 1.6rem;
+  font-weight: 500;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
 .spacer {
-  flex: 1;
+  flex: 1 1 auto;
+}
+
+.nav-button {
+  transition: all 0.3s ease;
+  border-radius: 4px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  background-color: white;
+}
+
+.nav-button:hover {
+  background-color: rgba(127, 133, 187, 0.47);
+  transform: translateY(-1px);
 }

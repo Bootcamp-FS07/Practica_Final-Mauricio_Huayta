@@ -1,0 +1,14 @@
+.comment-form {
+  display: flex;
+  align-items: center;
+}
+
+.full-width {
+  flex: 1;
+  margin-right: 8px;
+  width: 80%;
+}
+
+button {
+  white-space: nowrap;
+}
