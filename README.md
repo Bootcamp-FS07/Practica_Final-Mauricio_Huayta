@@ -2,6 +2,8 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.6.
 
+You can find the deployed App here: https://bootcamp-fs07.github.io/Practica_Final-Mauricio_Huayta/
+
 ## Getting Started
 
 ### Prerequisites
